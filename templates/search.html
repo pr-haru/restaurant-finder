@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>レストラン検索</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .container {
+                background-color: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+            .search-form {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            input[type="text"] {
+                flex: 1;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            button {
+                padding: 12px 24px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            .result {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #f8f9fa;
+                border-radius: 5px;
+                display: none;
+            }
+            .shop-item {
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 5px;
+                background-color: white;
+            }
+            .shop-name {
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+            .shop-detail {
+                color: #666;
+                margin: 5px 0;
+            }
+        </style>
+    </head>
+
+<body>
+    <div class="container">
+        <h1>🍽️ レストラン検索</h1>
+        
+        <form action="/search" method="POST" class="search-form">
+            <input type="text" name="keyword" placeholder="キーワードを入力してください" required>
+            <button type="submit">検索</button>
+        </form>
+        
+        <div id="result" class="result"></div>
+        
+        {{ if .Error }}
+        <div style="color: red; padding: 10px; background-color: #ffe6e6; border-radius: 5px; margin: 10px 0;">
+            エラー: {{ .Error }}
+        </div>
+        {{ end }}
+        
+        {{ if .Found }}
+        <h2>「{{ .Keyword }}」の検索結果: ({{ len .Shops }}件)</h2>
+        <ul class="shop-list">
+            {{ range .Shops }}
+            <li class="shop-item">
+                <h2>{{ .Name }}</h2>
+                <p>住所: {{ .Address }}</p>
+                <p>アクセス: {{ .Access }}</p>
+                <p>営業時間: {{ .Open }}</p>
+                <p>定休日: {{ .Close }}</p>
+                {{ if .Photo.PC.L }}
+                    <img src="{{ .Photo.PC.L }}" alt="{{ .Name }}" style="max-width: 100%; height: auto;">
+                {{ end }}
+                {{ if .CouponURLs.PC }}
+                    <p><a href="{{ .CouponURLs.PC }}" target="_blank">クーポンを見る (PC)</a></p>
+                {{ end }}
+            </li>
+            {{ end }}
+        </ul>
+        {{ else if .Keyword }} 
+        <p class="no-results">「{{ .Keyword }}」に一致する店舗は見つかりませんでした。</p>
+        {{ end }}
+    </div>
+
+    <script>
+        // document.querySelector('form').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+            
+        //     const formData = new FormData(this);
+        //     const resultDiv = document.getElementById('result');
+            
+        //     fetch('/search', {
+        //         method: 'POST',
+        //         body: formData
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         resultDiv.style.display = 'block';
+        //         if (data.error) {
+        //             resultDiv.innerHTML = `<p style="color: red;">エラー: ${data.error}</p>`;
+        //         } else {
+        //             resultDiv.innerHTML = `<p>${data.message}</p><p>検索キーワード: ${data.keyword}</p>`;
+        //         }
+        //     })
+        //     .catch(error => {
+        //         resultDiv.style.display = 'block';
+        //         resultDiv.innerHTML = `<p style="color: red;">エラーが発生しました: ${error.message}</p>`;
+        //     });
+        // });
+    </script>
+</body>
+</html>
