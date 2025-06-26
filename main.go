@@ -13,7 +13,7 @@ import (
 	"os"
 )
 
-// --- Shop構造体の定義を追加 ---
+//Shop構造体の定義を追加
 type Shop struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
@@ -36,17 +36,17 @@ type Shop struct {
 		PC     string `json:"pc"`
 		SP     string `json:"sp"`
 	} `json:"coupon_urls"`
-	// 必要に応じて他のフィールドも追加
 }
 
+//HotPepperAPiのレスポンスの構造体
 type HotPepperResponse struct {
 	Results struct {
 		APIVersion       string `json:"api_version"`
 		ResultsAvailable int    `json:"results_available"`
 		ResultsReturned  string    `json:"results_returned"`
 		ResultsStart     int    `json:"results_start"`
-		Shop             []Shop `json:"shop"` // ここが店舗情報の配列
-		Error            []struct { // エラーレスポンスも考慮
+		Shop             []Shop `json:"shop"`
+		Error            []struct { 
 			Code    int    `json:"code"`
 			Message string `json:"message"`
 		} `json:"error"`
@@ -67,17 +67,14 @@ func main() {
 	}
 
 	router := gin.Default()
-	
-	// 静的ファイルの設定
-	router.Static("/static", "./static")
-	
-	// テンプレートの設定
+
+	// router.Static("/static", "./static")
+	router.Static("/CSS", "./CSS")
 	router.LoadHTMLGlob("templates/*.html")
 	
 	// ルートの設定
 	router.GET("/", searchHandler)
-	router.GET("/search", processSearchHandler)
-	// 重複したGET /searchルートを削除
+	router.POST("/search", processSearchHandler)
 
 	router.Run(":8080")
 }
@@ -110,7 +107,7 @@ func processSearchHandler(c *gin.Context) {
 		})
 		return
 	}
-
+//viewに渡す
 	c.HTML(http.StatusOK, "search.html", gin.H{
 		"Keyword": keyword,
 		"Shops":   shops,
@@ -118,7 +115,7 @@ func processSearchHandler(c *gin.Context) {
 		"Error":   "",
 	})
 }
-
+//HotpepperAPIを呼び出す
 func searchHotPepperAPI(keyword string) ([]Shop, error) {
 
 	baseURL := "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
@@ -128,7 +125,8 @@ func searchHotPepperAPI(keyword string) ([]Shop, error) {
 	params.Add("key", hotpepperAPIKey)
 	params.Add("keyword", keyword)
 	params.Add("format", "json")
-	params.Add("count", "20") // 最大20件取得
+	params.Add("count", "20") 
+
 
 	// URLを構築
 	requestURL := baseURL + "?" + params.Encode()
