@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"restaurant-finder/Domain/entity"
+	"strconv" 
 )
 
 type HotPepperAPIClient struct{}
@@ -33,7 +34,7 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 		queryParams.Set("keyword", params.Keyword)
 	}
 	if params.Lat != 0 {
-		queryParams.Set("lat",  params.Lat)
+		queryParams.Set("lat", strconv.FormatFloat(params.Lat, 'f', -1, 64))
 	}
 	if params.Lng != 0 {
 		queryParams.Set("lng", fmt.Sprintf("%f", params.Lng))
@@ -63,7 +64,7 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 		queryParams.Set("private_room", fmt.Sprintf("%d", params.PrivateRoom))
 	}
 	if params.Count != 0 {
-		queryParams.Set("count",  params.Count)
+		queryParams.Set("count",  strconv.Itoa(params.Count))
 	}
 	if params.Start != 0 {
 		queryParams.Set("start", fmt.Sprintf("%d", params.Start))

@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	api "restaurant-finder/Infrastructure/api"
 	"restaurant-finder/Domain/entity"
 )
@@ -9,6 +8,13 @@ import (
 // GetRestaurantUsecase HotPepperAPIを使用してレストラン検索を行うユースケース
 type GetRestaurantUsecase struct {
 	hotPepperClient *api.HotPepperAPIClient
+}
+
+// NewGetRestaurantUsecase GetRestaurantUsecaseのコンストラクタ
+func NewGetRestaurantUsecase() *GetRestaurantUsecase {
+	return &GetRestaurantUsecase{
+		hotPepperClient: &api.HotPepperAPIClient{},
+	}
 }
 
 // GetRestaurant ユーザーの入力からレストランを検索する
