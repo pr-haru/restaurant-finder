@@ -10,7 +10,7 @@ type GetRestaurantUsecase struct {
 	hotPepperClient *api.HotPepperAPIClient
 }
 
-// NewGetRestaurantUsecase GetRestaurantUsecaseのコンストラクタ
+// NewGetRestaurantUsecase ユースケースのインスタンスを取得する
 func NewGetRestaurantUsecase() *GetRestaurantUsecase {
 	return &GetRestaurantUsecase{
 		hotPepperClient: &api.HotPepperAPIClient{},

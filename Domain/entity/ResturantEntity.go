@@ -34,7 +34,7 @@ type HotPepperResponse struct {
 	Results struct {
 		APIVersion       string `json:"api_version"`
 		ResultsAvailable int    `json:"results_available"`
-		ResultsReturned  string `json:"results_returned"`
+		ResultsReturned  int    `json:"results_returned"`
 		ResultsStart     int    `json:"results_start"`
 		Shop             []Shop `json:"shop"`
 		Error            []struct { 
