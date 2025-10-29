@@ -14,6 +14,8 @@ import (
 type OpenAIGenerator struct {
 	// クライアントインスタンスなどを保持するためのフィールド
 	// 例: openaiClient *openai.Client
+	// クライアントインスタンスなどを保持するためのフィールド
+	// 例: openaiClient *openai.Client
 }
 
 
