@@ -32,12 +32,12 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 	if params.Keyword != "" {
 		queryParams.Set("keyword", params.Keyword)
 	}
-	if params.Lat != 0 {
-		queryParams.Set("lat",  params.Lat)
-	}
-	if params.Lng != 0 {
-		queryParams.Set("lng", fmt.Sprintf("%f", params.Lng))
-	}
+	// if params.Lat != 0 {
+	// 	queryParams.Set("lat", fmt.Sprintf("%f", params.Lat))
+	// }
+	// if params.Lng != 0 {
+	// 	queryParams.Set("lng", fmt.Sprintf("%f", params.Lng))
+	// }
 	if params.Range != 0 {
 		queryParams.Set("range", fmt.Sprintf("%d", params.Range))
 	}
@@ -63,7 +63,7 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 		queryParams.Set("private_room", fmt.Sprintf("%d", params.PrivateRoom))
 	}
 	if params.Count != 0 {
-		queryParams.Set("count",  params.Count)
+		queryParams.Set("count", fmt.Sprintf("%d", params.Count))
 	}
 	if params.Start != 0 {
 		queryParams.Set("start", fmt.Sprintf("%d", params.Start))
