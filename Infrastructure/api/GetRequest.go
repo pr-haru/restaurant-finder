@@ -16,6 +16,7 @@ type OpenAIGenerator struct {
 	// 例: openaiClient *openai.Client
 	// クライアントインスタンスなどを保持するためのフィールド
 	// 例: openaiClient *openai.Client
+	//gitテスト
 }
 
 
