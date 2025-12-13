@@ -24,6 +24,11 @@
         
         {{ if .restaurants }}
         <h2>「{{ .query }}」の検索結果: ({{ .count }}件)</h2>
+        {{ if .naturalDescription }}
+        <div class="natural-description">
+            <p>{{ .naturalDescription }}</p>
+        </div>
+        {{ end }}
         <ul class="shop-list">
             {{ range .restaurants }}
             <li class="shop-item">
@@ -37,8 +42,11 @@
                 {{ if .Catch }}
                 <p><strong>キャッチコピー:</strong> {{ .Catch }}</p>
                 {{ end }}
+                {{ if .URLs.PC }}
+                <p><a href="{{ .URLs.PC }}" target="_blank" class="shop-link">🔗 お店のページを見る</a></p>
+                {{ end }}
                 {{ if .Photo.PC.L }}
-                    <img src="{{ .Photo.PC.L }}" alt="{{ .Name }}" style="max-width: 300px; height: auto;">
+                    <img src="{{ .Photo.PC.L }}" alt="{{ .Name }}" >
                 {{ end }}
             </li>
             {{ end }}

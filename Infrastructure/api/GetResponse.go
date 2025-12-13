@@ -1,14 +1,14 @@
-package Infrastructure
+package api
 
 import (
-	"os"
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"restaurant-finder/Domain/entity"
-	"strconv" 
+	"strconv"
 )
 
 type HotPepperAPIClient struct{}
@@ -21,14 +21,14 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 	fmt.Printf("HotPepper API request params: %+v\n", params)
 	// HotPepperAPIのベースURL
 	baseURL := "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
-	
+
 	// クエリパラメータを構築
 	//baseURLの?以降の部分がクエリパラメータ作成のため
 	queryParams := url.Values{}
 	//APIきー。?key以降
 	queryParams.Set("key", hotpepperAPIKey)
 	queryParams.Set("format", "json")
-	
+
 	// パラメータが設定されている場合のみ追加
 	if params.Keyword != "" {
 		queryParams.Set("keyword", params.Keyword)
@@ -69,17 +69,35 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 	if params.Start != 0 {
 		queryParams.Set("start", fmt.Sprintf("%d", params.Start))
 	}
+	if params.Free_food != 0 {
+		queryParams.Set("free_food", fmt.Sprintf("%d", params.Free_food))
+	}
+	if params.Free_drink != 0 {
+		queryParams.Set("free_drink", fmt.Sprintf("%d", params.Free_drink))
+	}
+	if params.Midnight != 0 {
+		queryParams.Set("midnight", fmt.Sprintf("%d", params.Midnight))
+	}
+	if params.Cacktail != 0 {
+		queryParams.Set("Cacktail", fmt.Sprintf("%d", params.Cacktail))
+	}
+	if params.Sake != 0 {
+		queryParams.Set("Sake", fmt.Sprintf("%d", params.Sake))
+	}
+	if params.Wine != 0 {
+		queryParams.Set("Wine", fmt.Sprintf("%d", params.Wine))
+	}
 
 	// APIリクエストを送信
 	fullURL := baseURL + "?" + queryParams.Encode()
 	fmt.Printf("HotPepper API URL: %s\n", fullURL)
-	
+
 	resp, err := http.Get(fullURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to make API request: %v", err)
 	}
 	defer resp.Body.Close()
-	
+
 	fmt.Printf("HotPepper API response status: %s\n", resp.Status)
 
 	// レスポンスボディを読み取り
@@ -95,7 +113,6 @@ func (c *HotPepperAPIClient) GetRestaurants(params *entity.HotPepperRequestParam
 		fmt.Printf("Response body: %s\n", string(body))
 		return nil, fmt.Errorf("failed to parse JSON response: %v", err)
 	}
-	
 	fmt.Printf("HotPepper API response parsed successfully. Found %d shops\n", len(hotPepperResponse.Results.Shop))
 
 	return &hotPepperResponse, nil

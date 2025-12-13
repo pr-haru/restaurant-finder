@@ -24,7 +24,7 @@ func ProcessSearchHandler(c *gin.Context) {
 
 	// ユースケースを作成して検索を実行、usecaseのメソッド呼び出し
 	usecase := usecase.NewGetRestaurantUsecase()
-	response, err := usecase.GetRestaurant(prompt)
+	result, err := usecase.GetRestaurantWithNaturalLanguage(prompt)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "search.html", gin.H{
 			"error": "検索中にエラーが発生しました: " + err.Error(),
@@ -33,10 +33,11 @@ func ProcessSearchHandler(c *gin.Context) {
 	}
 
 	// 検索結果をテンプレートに渡す
-	//検索ワード、検索件数
+	//検索ワード、検索件数、自然言語での説明
 	c.HTML(http.StatusOK, "search.html", gin.H{
-		"restaurants": response.Results.Shop,
-		"query":       prompt,
-		"count":       response.Results.ResultsReturned,
+		"restaurants":        result.Response.Results.Shop,
+		"query":              prompt,
+		"count":              result.Response.Results.ResultsReturned,
+		"naturalDescription": result.NaturalDescription,
 	})
 }

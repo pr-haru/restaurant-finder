@@ -14,8 +14,13 @@ type HotPepperRequestParams struct {
 	Genre       string  `json:"genre,omitempty"`
 	Budget      string  `json:"budget,omitempty"`
 	Lunch       int     `json:"lunch,omitempty"`
-	party_capacity int  `json:"private_room,omitempty"`
 	PrivateRoom int     `json:"private_room,omitempty"`
 	Count       int     `json:"count,omitempty"`
 	Start       int     `json:"start,omitempty"`
+	Free_food   int     `json:"free_food,omitempty"`
+	Free_drink  int     `json:"free_drink,omitempty"`
+	Midnight    int     `json:"midnight,omitempty"`
+	Cacktail    int     `json:"cacktail,omitempty"`
+	Sake        int     `json:"sake,omitempty"`
+	Wine        int     `json:"wine,omitempty"`
 }

@@ -62,3 +62,17 @@ button:hover {
     color: #666;
     margin: 5px 0;
 }
+.shop-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.shop-link:hover {
+    background-color: #218838;
+}
